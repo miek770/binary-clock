@@ -6,6 +6,10 @@ This is a simple binary clock project using a PIC18F252, pretty much for:
 2. Getting more experience with Eagle PCB design;
 3. Doing a first PIC C project (I've only programmed PICs in assembly before).
 
+## To Do List
+
+- Reduce title font size. The left part overlaps with the right. I could also move the 2 vias to the left to clear a bit more space.
+
 ## Display
 
 The clock uses 5 LEDs (bits) for the hours (24h format), 6 for the minutes and 6 for the seconds. Showing fractions of seconds seemed excessive.
