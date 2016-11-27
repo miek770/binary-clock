@@ -32,4 +32,4 @@ These corrections would make it version 0.1.1. They are all based on version 0.1
 - Perhaps the test points are a bit too big for no reason. It's not really a problem, unless I want to solder something in it;
 - On the bottom copper layer pin 3 of the adjustment header is not tied to ground. I think it should be. Update: No, it's tied to Vdd which is fine (top layer);
 - Add other connections between the USB port's ground pin and the ground plane, on both the top and bottom layers.
-
+- Use interrupt enabled pins for adjustments
