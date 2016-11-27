@@ -31,6 +31,5 @@ These corrections would make it version 0.1.1. They are all based on version 0.1
 - The battery header's label is partially hidden by the VBAT test point;
 - Perhaps the test points are a bit too big for no reason. It's not really a problem, unless I want to solder something in it;
 - On the bottom copper layer pin 3 of the adjustment header is not tied to ground. I think it should be. Update: No, it's tied to Vdd which is fine (top layer);
-- 'm pretty sure the USB casing should be tied to ground, but it seems to be floating;
 - Add other connections between the USB port's ground pin and the ground plane, on both the top and bottom layers.
 
