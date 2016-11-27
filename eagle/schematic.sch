@@ -3016,17 +3016,17 @@ Date: 2016-11-26</text>
 </sheet>
 </sheets>
 <errors>
-<approved hash="104,1,73.66,137.16,U1,VSS_2,GND,,,"/>
-<approved hash="104,1,73.66,134.62,U1,VSS,GND,,,"/>
-<approved hash="104,1,27.94,60.96,USB,VBUS,5V,,,"/>
-<approved hash="113,1,124.356,92.606,FRAME1,,,,,"/>
-<approved hash="113,1,9.92293,159.889,PROG,,,,,"/>
-<approved hash="113,1,9.92293,115.439,ADJ,,,,,"/>
-<approved hash="113,1,238.997,123.321,MIN,,,,,"/>
-<approved hash="113,1,238.997,72.5212,SEC,,,,,"/>
-<approved hash="113,1,238.997,167.771,HR,,,,,"/>
-<approved hash="113,1,22.6229,25.2688,BAT,,,,,"/>
-<approved hash="113,1,19.685,57.1712,USB,,,,,"/>
+<approved hash="104,1,68.58,139.7,U1,VSS_2,GND,,,"/>
+<approved hash="104,1,68.58,137.16,U1,VSS,GND,,,"/>
+<approved hash="104,1,30.48,63.5,USB,VBUS,5V,,,"/>
+<approved hash="113,1,15.0029,159.889,PROG,,,,,"/>
+<approved hash="113,1,15.0029,112.899,ADJ,,,,,"/>
+<approved hash="113,1,233.917,120.781,MIN,,,,,"/>
+<approved hash="113,1,233.917,69.9812,SEC,,,,,"/>
+<approved hash="113,1,233.917,165.231,HR,,,,,"/>
+<approved hash="113,1,25.1629,27.8088,BAT,,,,,"/>
+<approved hash="113,1,22.225,59.7112,USB,,,,,"/>
+<approved hash="115,1,29.21,30.48,VBAT,,,,,"/>
 </errors>
 </schematic>
 </drawing>
