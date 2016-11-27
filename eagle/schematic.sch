@@ -2393,8 +2393,8 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <plain>
 <text x="208.28" y="7.62" size="1.778" layer="91">Title: PIC18F252 Binary Clock
 Author: Michel Lavoie
-Revision: 0.1.0
-Date: 2016-11-26</text>
+Revision: 0.1.1
+Date: 2016-11-27</text>
 </plain>
 <instances>
 <instance part="U1" gate="A" x="116.84" y="147.32"/>
@@ -2622,9 +2622,9 @@ Date: 2016-11-26</text>
 <label x="43.18" y="114.3" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U1" gate="A" pin="RA1/AN1"/>
-<wire x1="58.42" y1="160.02" x2="68.58" y2="160.02" width="0.1524" layer="91"/>
-<label x="58.42" y="160.02" size="1.778" layer="95"/>
+<pinref part="U1" gate="A" pin="RB0/INT0/FLT0/AN12"/>
+<wire x1="172.72" y1="144.78" x2="165.1" y2="144.78" width="0.1524" layer="91"/>
+<label x="167.64" y="144.78" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="ADJ-MIN" class="0">
@@ -2638,9 +2638,9 @@ Date: 2016-11-26</text>
 <label x="43.18" y="116.84" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U1" gate="A" pin="RA2/AN2/VREF-/CVREF"/>
-<wire x1="58.42" y1="157.48" x2="68.58" y2="157.48" width="0.1524" layer="91"/>
-<label x="58.42" y="157.48" size="1.778" layer="95"/>
+<pinref part="U1" gate="A" pin="RB1/AN10/INT1"/>
+<wire x1="172.72" y1="142.24" x2="165.1" y2="142.24" width="0.1524" layer="91"/>
+<label x="167.64" y="142.24" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="AN0" class="0">
@@ -2808,7 +2808,7 @@ Date: 2016-11-26</text>
 <pinref part="SEC" gate="A" pin="6"/>
 </segment>
 </net>
-<net name="RA3" class="0">
+<net name="HR0" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RA3/AN3/VREF+"/>
 <wire x1="68.58" y1="154.94" x2="58.42" y2="154.94" width="0.1524" layer="91"/>
@@ -2820,7 +2820,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="170.18" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RA4" class="0">
+<net name="HR1" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RA4/T0CKI/C1OUT"/>
 <wire x1="58.42" y1="152.4" x2="68.58" y2="152.4" width="0.1524" layer="91"/>
@@ -2832,7 +2832,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="162.56" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RA5" class="0">
+<net name="HR2" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RA5/AN4/~SS/HLVDIN/C2OUT"/>
 <wire x1="58.42" y1="149.86" x2="68.58" y2="149.86" width="0.1524" layer="91"/>
@@ -2844,7 +2844,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="154.94" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RA6" class="0">
+<net name="HR3" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="OSC2/CLKO/RA6"/>
 <wire x1="58.42" y1="147.32" x2="68.58" y2="147.32" width="0.1524" layer="91"/>
@@ -2856,7 +2856,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="147.32" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RA7" class="0">
+<net name="HR4" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="OSC1/CLKI/RA7"/>
 <wire x1="58.42" y1="144.78" x2="68.58" y2="144.78" width="0.1524" layer="91"/>
@@ -2868,7 +2868,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="139.7" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RC0" class="0">
+<net name="MIN4" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RC0/T1OSO/T13CKI"/>
 <wire x1="172.72" y1="167.64" x2="165.1" y2="167.64" width="0.1524" layer="91"/>
@@ -2880,7 +2880,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="96.52" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RC1" class="0">
+<net name="MIN5" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RC1/T1OSI/CCP2"/>
 <wire x1="172.72" y1="165.1" x2="165.1" y2="165.1" width="0.1524" layer="91"/>
@@ -2892,7 +2892,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="88.9" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RC2" class="0">
+<net name="SEC0" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RC2/CCP1"/>
 <wire x1="172.72" y1="162.56" x2="165.1" y2="162.56" width="0.1524" layer="91"/>
@@ -2904,7 +2904,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="76.2" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RC3" class="0">
+<net name="SEC1" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RC3/SCK/SCL"/>
 <wire x1="172.72" y1="160.02" x2="165.1" y2="160.02" width="0.1524" layer="91"/>
@@ -2916,7 +2916,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="68.58" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RC4" class="0">
+<net name="SEC2" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RC4/SDI/SDA"/>
 <wire x1="172.72" y1="157.48" x2="165.1" y2="157.48" width="0.1524" layer="91"/>
@@ -2928,7 +2928,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="60.96" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RC5" class="0">
+<net name="SEC3" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RC5/SDO"/>
 <wire x1="172.72" y1="154.94" x2="165.1" y2="154.94" width="0.1524" layer="91"/>
@@ -2940,7 +2940,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="53.34" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RC6" class="0">
+<net name="SEC4" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RC6/TX/CK"/>
 <wire x1="172.72" y1="152.4" x2="165.1" y2="152.4" width="0.1524" layer="91"/>
@@ -2952,7 +2952,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="45.72" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RC7" class="0">
+<net name="SEC5" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RC7/RX/DT"/>
 <wire x1="172.72" y1="149.86" x2="165.1" y2="149.86" width="0.1524" layer="91"/>
@@ -2964,31 +2964,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RB0" class="0">
-<segment>
-<pinref part="U1" gate="A" pin="RB0/INT0/FLT0/AN12"/>
-<wire x1="172.72" y1="144.78" x2="165.1" y2="144.78" width="0.1524" layer="91"/>
-<label x="167.64" y="144.78" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="R10" gate="G$1" pin="2"/>
-<wire x1="190.5" y1="127" x2="198.12" y2="127" width="0.1524" layer="91"/>
-<label x="190.5" y="127" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="RB1" class="0">
-<segment>
-<pinref part="U1" gate="A" pin="RB1/AN10/INT1"/>
-<wire x1="172.72" y1="142.24" x2="165.1" y2="142.24" width="0.1524" layer="91"/>
-<label x="167.64" y="142.24" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="R11" gate="G$1" pin="2"/>
-<wire x1="190.5" y1="119.38" x2="198.12" y2="119.38" width="0.1524" layer="91"/>
-<label x="190.5" y="119.38" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="RB2" class="0">
+<net name="MIN2" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RB2/AN8/INT2"/>
 <wire x1="172.72" y1="139.7" x2="165.1" y2="139.7" width="0.1524" layer="91"/>
@@ -3000,7 +2976,7 @@ Date: 2016-11-26</text>
 <label x="190.5" y="111.76" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="RB3" class="0">
+<net name="MIN3" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="RB3/AN9/CCP2"/>
 <wire x1="172.72" y1="137.16" x2="165.1" y2="137.16" width="0.1524" layer="91"/>
@@ -3010,6 +2986,30 @@ Date: 2016-11-26</text>
 <pinref part="R13" gate="G$1" pin="2"/>
 <wire x1="190.5" y1="104.14" x2="198.12" y2="104.14" width="0.1524" layer="91"/>
 <label x="190.5" y="104.14" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="MIN0" class="0">
+<segment>
+<pinref part="U1" gate="A" pin="RA1/AN1"/>
+<wire x1="58.42" y1="160.02" x2="68.58" y2="160.02" width="0.1524" layer="91"/>
+<label x="58.42" y="160.02" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="R10" gate="G$1" pin="2"/>
+<wire x1="190.5" y1="127" x2="198.12" y2="127" width="0.1524" layer="91"/>
+<label x="190.5" y="127" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="MIN1" class="0">
+<segment>
+<pinref part="U1" gate="A" pin="RA2/AN2/VREF-/CVREF"/>
+<wire x1="58.42" y1="157.48" x2="68.58" y2="157.48" width="0.1524" layer="91"/>
+<label x="58.42" y="157.48" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="R11" gate="G$1" pin="2"/>
+<wire x1="190.5" y1="119.38" x2="198.12" y2="119.38" width="0.1524" layer="91"/>
+<label x="190.5" y="119.38" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
