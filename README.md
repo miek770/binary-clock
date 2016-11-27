@@ -8,7 +8,7 @@ This is a simple binary clock project using a PIC18F252, pretty much for:
 
 ## To Do List
 
-- Reduce title font size. The left part overlaps with the right. I could also move the 2 vias to the left to clear a bit more space.
+Nothing!
 
 ## Display
 
