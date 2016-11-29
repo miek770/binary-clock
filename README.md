@@ -1,6 +1,6 @@
 # Binary Clock
 
-This is a simple binary clock project using a PIC18F252, pretty much for:
+This is a simple binary clock project using a PIC18F2220, pretty much for:
 
 1. The fun of it;
 2. Getting more experience with Eagle PCB design;
