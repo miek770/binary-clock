@@ -107,3 +107,4 @@ dkms.conf
 *.mcs
 *.mcw
 *.err
+*.cof
