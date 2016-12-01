@@ -2,6 +2,9 @@
 
 #pragma config OSC = INTIO2
 #pragma config WDT = OFF
+#pragma config BOR = OFF
+#pragma config PWRT = OFF
+#pragma config LVP = OFF
 
 unsigned int bres = 0;
 unsigned char hour = 0;
@@ -24,11 +27,17 @@ void ISR (void) {
 			bres -= 62500; // subtract 1 second, retain error
 			sec += 1;
 			update_time();
+			check_battery();
 		}
 
 		INTCONbits.TMR0IF = 0; // Reset flag
 		INTCONbits.GIE = 1; // Re-enable all interrupt sources (not sure if required)
 		INTCONbits.PEIE = 1; // Enable peripheral interrupt sources (not sure if required)
+	}
+
+	if (PIR1bits.ADIF) {
+		// Check if battery voltage under 1V/cell
+		// If so, blink RA7
 	}
 }
 
@@ -48,6 +57,10 @@ void update_time(void) {
 	}
 }
 
+void check_battery(void) {
+	ADCON0bits.GO = 1; // Start A/D conversion
+}
+
 void main (void) {
 	// Oscillator configuration
 	OSCCONbits.IDLEN = 1; // Idle mode enabled; CPU core is not clocked in power managed modes
@@ -65,21 +78,33 @@ void main (void) {
 	INTCON2bits.INTEDG0 = 1; // INT0 on rising edge
 	INTCON3bits.INT1IE = 0; // Enable INT1 interrupt
 	INTCON2bits.INTEDG1 = 1; // INT1 on rising edge
-	PIE1bits.ADIE = 1;
+	PIE1bits.ADIE = 1; // Enable A/D conversion interrupt
 
 	// Timer0
 	T0CONbits.TMR0ON = 1; // Enable TMR0
 	T0CONbits.T08BIT = 1; // 8-bit timer (256 ticks)
 	T0CONbits.T0CS = 0; // Internal instruction cycle clock
-/*	T0CONbits.PSA = ; // 
-	T0CONbits. = ; // 
-	T0CONbits. = ; // 
-	T0CONbits. = ; // 
+	T0CONbits.PSA = 1; // Bypass prescaler
 
 	// A/D converter
-	ADCON0
-	ADCON1
-	ADCON2*/
+	ADCON0bits.CHS3 = 0; // AN0 (battery voltage)
+	ADCON0bits.CHS2 = 0;
+	ADCON0bits.CHS1 = 0;
+	ADCON0bits.CHS0 = 0;
+	ADCON0bits.ADON = 1; // A/D converter module is enabled
+	ADCON1bits.VCFG1 = 0; // VREFL = AVss
+	ADCON1bits.VCFG0 = 0; // VREFH = AVdd
+	ADCON1bits.PCFG3 = 1; // AN0 = analog, others = digital
+	ADCON1bits.PCFG2 = 1;
+	ADCON1bits.PCFG1 = 1;
+	ADCON1bits.PCFG0 = 0;
+	ADCON2bits.ADFM = 1; // A/D result right justified (don't know the point..)
+	ADCON2bits.ACQT2 = 1; // 20 Tad (acquisition time)
+	ADCON2bits.ACQT1 = 1;
+	ADCON2bits.ACQT0 = 1;
+	ADCON2bits.ADCS2 = 0; // Fosc/8
+	ADCON2bits.ADCS1 = 0;
+	ADCON2bits.ADCS0 = 1;
 
 	// Ports A,B,C
 	TRISA = 0b00000001;
