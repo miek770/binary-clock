@@ -42,6 +42,7 @@ void ISR (void) {
 		INTCONbits.TMR0IF = 0; // Reset flag
 	}
 
+	// A/D conversion is complete
 	if (PIR1bits.ADIF) {
 		// Check if battery voltage under 1V/cell
 		if (ADRESH >= 0b10 && ADRESL >= 0b01101101) {
@@ -50,11 +51,29 @@ void ISR (void) {
 		PIR1bits.ADIF = 0; // Reset flag
 	}
 
+	// Time to blink!
 	if (PIR1bits.TMR1IF) {
 		PORTAbits.RA7 ^= 1; // Toggle RA7
 		T1CONbits.TMR1ON = 0; // Turn off TMR1
 		PIR1bits.TMR1IF = 0; // Reset flag
 	}
+
+	// Hour adjustment!
+	if (INTCONbits.INT0IF) {
+		hour += 1;
+		update_time();
+		sync_leds();
+		INTCONbits.INT0IF = 0; // Reset flag
+	}
+
+	// Min adjustment!
+	if (INTCON3bits.INT1IF) {
+		min += 1;
+		update_time();
+		sync_leds();
+		INTCON3bits.INT1IF = 0; // Reset flag
+	}
+
 	// The GIE bit seems to be reset automatically
 	//INTCONbits.GIE = 1; // Re-enable all interrupt sources
 }
