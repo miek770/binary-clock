@@ -8,7 +8,11 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 
 ## To Do List
 
-The PCB order was placed on OSH Park on 2016-11-27. The next steps are:
+The PCB order was placed on OSH Park on 2016-11-27. It should take a few weeks before I receive it. Until then, I should finish coding.
+
+- Program time adjustment (interrupts on INT0 and INT1).
+
+After that, the next steps are:
 
 - Choose the physical form and appearance;
 - Test the PCB;

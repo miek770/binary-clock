@@ -1,27 +1,33 @@
 #include <p18f2220.h>
 
+// Configuration
 #pragma config OSC = INTIO2
 #pragma config WDT = OFF
 #pragma config BOR = OFF
 #pragma config PWRT = OFF
 #pragma config LVP = OFF
 
+// Variables declarations
 unsigned int bres = 0;
 unsigned char hour = 0;
 unsigned char min = 0;
 unsigned char sec = 0;
 
-unsigned char blinking = 0;
-
+// Prototypes
 void update_time(void);
 void refresh_clock(void);
 void blink(void);
 void sync_leds(void);
 
+// Microchip's examples use a GOTO to jump to an external function. I guess
+// this is for cases where your function would take more space than what's
+// allowed for the interrupt vector.
 #pragma code INTERRUPT_VECTOR = 0x8
+
 void ISR (void) {
 
 	// See www.romanblack.com/one_sec.htm for details
+	// Values below work for 4MHz clock (Fosc/4 = 1MHz)
 	if (INTCONbits.TMR0IF) {
 		bres += 16; // add (256/16) ticks to bresenham total
 		
@@ -39,18 +45,15 @@ void ISR (void) {
 	if (PIR1bits.ADIF) {
 		// Check if battery voltage under 1V/cell
 		if (ADRESH >= 0b10 && ADRESL >= 0b01101101) {
-			blink();
+			blink(); // Initiates RA7 blink
 		}
-		PIR1bits.ADIF = 0;
+		PIR1bits.ADIF = 0; // Reset flag
 	}
 
 	if (PIR1bits.TMR1IF) {
-		if (blinking) {
-			blinking = 0; // Turn off blinking
-			T1CONbits.TMR1ON = 1; // Turn on TMR1 again
-		}
 		PORTAbits.RA7 ^= 1; // Toggle RA7
-		PIR1bits.TMR1IF = 0;
+		T1CONbits.TMR1ON = 0; // Turn off TMR1
+		PIR1bits.TMR1IF = 0; // Reset flag
 	}
 	// The GIE bit seems to be reset automatically
 	//INTCONbits.GIE = 1; // Re-enable all interrupt sources
@@ -59,7 +62,7 @@ void ISR (void) {
 #pragma code
 
 void blink(void) {
-	blinking = 1; // Enable blinking
+	PORTAbits.RA7 ^= 1; // Toggle RA7
 	T1CONbits.TMR1ON = 1; // Turn on TMR1
 }
 
@@ -75,7 +78,6 @@ void update_time(void) {
 			}
 		}
 	}
-	sync_leds();
 }
 
 void sync_leds(void) {
