@@ -8,6 +8,8 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 
 ## To Do List
 
+1st, adjust text below for 3 AA batteries.
+
 The PCB order was placed on OSH Park on 2016-11-27. It should take a few weeks before I receive it. Until then, I should finish coding.
 
 - Program time adjustment (interrupts on INT0 and INT1).
@@ -29,7 +31,7 @@ The clock uses 5 LEDs (bits) for the hours (24h format), 6 for the minutes and 6
 
 It can be fed either or by both:
 
-1. 4x AA batteries;
+1. 3x AA batteries;
 2. A micro-USB port.
 
 ### Low Charge Detection
