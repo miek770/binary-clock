@@ -8,8 +8,6 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 
 ## To Do List
 
-1st, adjust text below for 3 AA batteries.
-
 The PCB order was placed on OSH Park on 2016-11-27.
 
 - Choose the physical form and appearance;
@@ -34,9 +32,9 @@ It can be fed either or by both:
 
 Both supplies are paralleled with diodes, and the PIC monitors the batteries' voltage so that an alarm (blinking LED) is raised when the batteries are low. For 1.5V AA batteries, this would be pretty much when they get under 1V. AN0 is used on the PIC to measure the battery voltage.
 
-Hum thinking about it makes me realize that the voltage reference is Vdd. So if we ignore the voltage drop through the diode, which is gonna be constant, the voltage drop at the battery (with no USB supply) is going to drop proportionally with Vdd which means the AN0 measurement won't pick it up. Unless I use the voltage drop across the diode as a reference. At 6V at the batteries, with a 0.7V drop through the diode I'll get 5.3V at Vdd. When the batteries get to 4V (1V per cell), Vdd will equal 3.3V.
+Hum thinking about it makes me realize that the voltage reference is Vdd. So if we ignore the voltage drop through the diode, which is gonna be constant, the voltage drop at the battery (with no USB supply) is going to drop proportionally with Vdd which means the AN0 measurement won't pick it up. Unless I use the voltage drop across the diode as a reference. At 4.5V at the batteries, with a 0.7V drop through the diode I'll get 3.8V at Vdd. When the batteries get to 3V (1V per cell), Vdd will equal 2.3V.
 
-So Vbatt/Vdd = 6V/5.3V (1.132) at full charge, and 4V/3.3V (1.212) at low charge. Using a 50/50 voltage divider between Vbatt and AN0, the ratios would be 0.566 (full) and 0.606 (low). With a 10-bit A/D converter I have a 1024 resolution, which would be able to measure this. Basically the reading is going to go from 0/1024 to 1024/1024. A 0.566 ratio (full) would be read as 580 and a 0.606 ratio (low) as 621 (0b1001101101). So I could then consider any reading over 620 as a low battery charge.
+So Vbatt/Vdd = 4.5V/3.8V (1.184) at full charge, and 3V/2.3V (1.304) at low charge. Using a 50/50 voltage divider between Vbatt and AN0, the ratios would be 0.592 (full) and 0.652 (low). With a 10-bit A/D converter I have a 1024 resolution, which would be able to measure this. Basically the reading is going to go from 0/1023 to 1023/1023. A 0.592 ratio (full) would be read as 606 and a 0.652 ratio (low) as 667. So I could then consider any reading over 666 (0b1010011010) as a low battery charge.
 
 This will need to be adjusted to account for the real diode voltage drop as well as the voltage divider ratio, but it should do the trick. For testing purposes I could use the time diodes to show the A/D conversion output. I have up to 17 bits (5+6+6 diodes).
 

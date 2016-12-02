@@ -45,7 +45,7 @@ void ISR (void) {
 	// A/D conversion is complete
 	if (PIR1bits.ADIF) {
 		// Check if battery voltage under 1V/cell
-		if (ADRESH >= 0b10 && ADRESL >= 0b01101101) {
+		if (ADRESH >= 0b10 && ADRESL >= 0b10011010) {
 			blink(); // Initiates RA7 blink
 		}
 		PIR1bits.ADIF = 0; // Reset flag
