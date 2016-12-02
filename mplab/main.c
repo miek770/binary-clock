@@ -11,10 +11,12 @@ unsigned char hour = 0;
 unsigned char min = 0;
 unsigned char sec = 0;
 
+unsigned char blinking = 0;
+
 void update_time(void);
 void refresh_clock(void);
 void blink(void);
-void check_battery(void);
+void sync_leds(void);
 
 #pragma code INTERRUPT_VECTOR = 0x8
 void ISR (void) {
@@ -27,21 +29,39 @@ void ISR (void) {
 			bres -= 62500; // subtract 1 second, retain error
 			sec += 1;
 			update_time();
-			check_battery();
+			sync_leds();
+			ADCON0bits.GO = 1; // Check battery level
 		}
 
 		INTCONbits.TMR0IF = 0; // Reset flag
-		INTCONbits.GIE = 1; // Re-enable all interrupt sources (not sure if required)
-		INTCONbits.PEIE = 1; // Enable peripheral interrupt sources (not sure if required)
 	}
 
 	if (PIR1bits.ADIF) {
 		// Check if battery voltage under 1V/cell
-		// If so, blink RA7
+		if (ADRESH >= 0b10 && ADRESL >= 0b01101101) {
+			blink();
+		}
+		PIR1bits.ADIF = 0;
 	}
+
+	if (PIR1bits.TMR1IF) {
+		if (blinking) {
+			blinking = 0; // Turn off blinking
+			T1CONbits.TMR1ON = 1; // Turn on TMR1 again
+		}
+		PORTAbits.RA7 ^= 1; // Toggle RA7
+		PIR1bits.TMR1IF = 0;
+	}
+	// The GIE bit seems to be reset automatically
+	//INTCONbits.GIE = 1; // Re-enable all interrupt sources
 }
 
 #pragma code
+
+void blink(void) {
+	blinking = 1; // Enable blinking
+	T1CONbits.TMR1ON = 1; // Turn on TMR1
+}
 
 void update_time(void) {
 	if (sec == 60) {
@@ -55,10 +75,27 @@ void update_time(void) {
 			}
 		}
 	}
+	sync_leds();
 }
 
-void check_battery(void) {
-	ADCON0bits.GO = 1; // Start A/D conversion
+void sync_leds(void) {
+	PORTAbits.RA3 = hour & 0b1;
+	PORTAbits.RA4 = hour & 0b10;
+	PORTAbits.RA5 = hour & 0b100;
+	PORTAbits.RA6 = hour & 0b1000;
+	PORTAbits.RA7 = hour & 0b10000;
+	PORTAbits.RA1 = min & 0b1;
+	PORTAbits.RA2 = min & 0b10;
+	PORTBbits.RB2 = min & 0b100;
+	PORTBbits.RB3 = min & 0b1000;
+	PORTCbits.RC0 = min & 0b10000;
+	PORTCbits.RC1 = min & 0b100000;
+	PORTCbits.RC2 = sec & 0b1;
+	PORTCbits.RC3 = sec & 0b10;
+	PORTCbits.RC4 = sec & 0b100;
+	PORTCbits.RC5 = sec & 0b1000;
+	PORTCbits.RC6 = sec & 0b10000;
+	PORTCbits.RC7 = sec & 0b100000;
 }
 
 void main (void) {
@@ -80,11 +117,17 @@ void main (void) {
 	INTCON2bits.INTEDG1 = 1; // INT1 on rising edge
 	PIE1bits.ADIE = 1; // Enable A/D conversion interrupt
 
-	// Timer0
+	// Timer0 - To count seconds
 	T0CONbits.TMR0ON = 1; // Enable TMR0
 	T0CONbits.T08BIT = 1; // 8-bit timer (256 ticks)
 	T0CONbits.T0CS = 0; // Internal instruction cycle clock
 	T0CONbits.PSA = 1; // Bypass prescaler
+
+	// Timer1 - To blink RA7 (low battery)
+	T1CONbits.T1CKPS1 = 0; // 1:2 prescale value
+	T1CONbits.T1CKPS0 = 1;
+	T1CONbits.TMR1CS = 0; // Internal clock (Fosc/4)
+	T1CONbits.TMR1ON = 0; // Disable TMR1
 
 	// A/D converter
 	ADCON0bits.CHS3 = 0; // AN0 (battery voltage)
@@ -113,4 +156,9 @@ void main (void) {
 	PORTB = 0x00;
 	TRISC = 0b00000000;
 	PORTC = 0x00;
+
+	// Loop indefinitely
+	while (1) {
+		Nop();
+	}
 }
