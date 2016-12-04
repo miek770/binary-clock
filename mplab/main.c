@@ -7,24 +7,32 @@
 #pragma config PWRT = OFF
 #pragma config LVP = OFF
 
-// Variables declarations
-unsigned int bres = 0;
-unsigned char hour = 0;
-unsigned char min = 0;
-unsigned char sec = 0;
-
 // Prototypes
 void update_time(void);
 void refresh_clock(void);
 void blink(void);
 void sync_leds(void);
 
-// Microchip's examples use a GOTO to jump to an external function. I guess
-// this is for cases where your function would take more space than what's
-// allowed for the interrupt vector.
-#pragma code INTERRUPT_VECTOR = 0x8
+// Initialized variables declarations
+// Using "near" ensures that the variables be saved in the access data bank.
+// Using "volatile" is recommended by the C18 User's Guide when the variable
+// is to be used by the ISR as well as other functions.
+#pragma idata
+near volatile unsigned int bres = 0;
+near volatile unsigned char hour = 0;
+near volatile unsigned char min = 0;
+near volatile unsigned char sec = 0;
 
-void ISR (void) {
+// High-priority interrupt vector
+#pragma code high_vector = 0x08
+void interrupt_at_high_vector(void) {
+    _asm GOTO isr _endasm
+}
+#pragma code
+
+// Interrupt subroutine (priorities are disabled)
+#pragma interrupt isr save=bres, hour, min, sec
+void isr (void) {
 
 	// See www.romanblack.com/one_sec.htm for details
 	// Values below work for 4MHz clock (Fosc/4 = 1MHz)
@@ -78,8 +86,8 @@ void ISR (void) {
 	//INTCONbits.GIE = 1; // Re-enable all interrupt sources
 }
 
+// Main code
 #pragma code
-
 void blink(void) {
 	PORTAbits.RA7 ^= 1; // Toggle RA7
 	T1CONbits.TMR1ON = 1; // Turn on TMR1
