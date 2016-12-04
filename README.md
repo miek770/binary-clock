@@ -10,14 +10,18 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 
 The PCB order was placed on OSH Park on 2016-11-27.
 
-- Choose the physical form and appearance;
+- Use LATx instead for PORTx for output pins control. Apparently this is the correct way to do it;
 - Test the PCB;
 - Solder the components;
 - Assemble the clock.
 
-For the clock appearance, I hesitate between a wooden look or a more modern, metallic appearance. Clear plexiglass is also an option to consider. I like the idea of being able to see what's underneath, but it may make the clock itself harder to read.
+## Appearance
 
-## Display
+### Front
+
+I think I'll use an old PC card for the front. I have a nice looking one with few components on it and I could easily drill holes for the LEDs. It would definitely give the clock its most deserved geeky look.
+
+### Display
 
 The clock uses 5 LEDs (bits) for the hours (24h format), 6 for the minutes and 6 for the seconds. Showing fractions of seconds seemed excessive.
 
