@@ -10,8 +10,6 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 
 The PCB order was placed on OSH Park on 2016-11-27.
 
-- Use LATx instead for PORTx for output pins control. Apparently this is the correct way to do it;
-- Examples show that I should add the linker script manually to my MPLAB project, but it seems to work just fine without doing so. Perhaps it was made automatic in the release I use. I'm quite sure I did add the linker directory to the project's options, which may explain why I don't have to add it manually (same goes for the header);
 - Consider using delays.h instead of timer1 for the low-battery blink. The use of the timer seems unecessary and it would be a good excuse to explore the available functions;
 - Consider importing timers.h to setup timer0, instead of manually setting each register;
 - Consider using the idle power management mode when nothing is happening to reduce battery consumption. First check if it would interfere with timer0;
