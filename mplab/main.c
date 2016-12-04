@@ -12,6 +12,7 @@ void update_time(void);
 void refresh_clock(void);
 void blink(void);
 void sync_leds(void);
+void isr(void);
 
 // Prototypes - Configurations
 void conf_tmr0(void);
@@ -22,16 +23,15 @@ void conf_tmr1(void);
 void conf_ports(void);
 
 // Initialized variables declarations
-// Using "near" ensures that the variables be saved in the access data bank.
 // Using "volatile" is recommended by the C18 User's Guide when the variable
 // is to be used by the ISR as well as other functions. Basically it ensures
 // that the variable isn't cached during execution so changes in either the
 // normal program or interrupt routines are reflected in each other.
 #pragma idata
-volatile unsigned near int bres = 0;
-volatile unsigned near char hour = 0;
-volatile unsigned near char min = 0;
-volatile unsigned near char sec = 0;
+volatile unsigned int bres = 0;
+volatile unsigned char hour = 0;
+volatile unsigned char min = 0;
+volatile unsigned char sec = 0;
 
 // High-priority interrupt vector
 #pragma code high_vector = 0x08
