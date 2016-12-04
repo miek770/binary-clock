@@ -22,28 +22,35 @@ void conf_osc(void);
 void conf_tmr1(void);
 void conf_ports(void);
 
-// Initialized variables declarations
-// Using "volatile" is recommended by the C18 User's Guide when the variable
-// is to be used by the ISR as well as other functions. Basically it ensures
-// that the variable isn't cached during execution so changes in either the
-// normal program or interrupt routines are reflected in each other.
-#pragma idata
-volatile unsigned int bres = 0;
-volatile unsigned char hour = 0;
-volatile unsigned char min = 0;
-volatile unsigned char sec = 0;
+/* Initialized variables declarations
+
+Using "access" and "near" ensures that the data be saved in the accessram
+region of the data memory (quicker access).
+
+Using "volatile" is recommended by the C18 User's Guide when the variable
+is to be used by the ISR as well as other functions. Basically it ensures
+that the variable isn't cached during execution so changes in either the
+normal program or interrupt routines are reflected in each other. */
+
+#pragma idata access accessram
+volatile near unsigned int bres = 0;
+volatile near unsigned char hour = 0;
+volatile near unsigned char min = 0;
+volatile near unsigned char sec = 0;
 
 // High-priority interrupt vector
 #pragma code high_vector = 0x08
 void interrupt_at_high_vector(void) {
-    _asm GOTO isr _endasm
+	_asm GOTO isr _endasm
 }
 #pragma code
 
-// Interrupt subroutine (priorities are disabled)
-// I'm not sure if saving variables is required when using volatiles, but the
-// C18 User's Guide says I should. It also doesn't do so in its example, which
-// is kind of confusing...
+/* Interrupt subroutine (priorities are disabled)
+
+I'm not sure if saving variables is required when using volatiles, but the C18
+User's Guide says I should. It also doesn't do so in its example, which is kind
+of confusing... */
+
 #pragma interrupt isr save=bres, hour, min, sec
 void isr (void) {
 
@@ -100,10 +107,10 @@ void isr (void) {
 #pragma code
 void main (void) {
 	conf_osc(); // Oscillator configuration
-    conf_int(); // Interrupts configuration
-    conf_tmr0(); // Timer0 - To count seconds
+	conf_int(); // Interrupts configuration
+	conf_tmr0(); // Timer0 - To count seconds
 	conf_tmr1(); // Timer1 - To blink RA7 (low battery)
-    conf_adc(); // A/D converter
+	conf_adc(); // A/D converter
 	conf_ports(); // Ports A,B,C
 
 	while (1); // Loop indefinitely
