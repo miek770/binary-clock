@@ -81,7 +81,7 @@ void isr (void) {
 
 	// Time to blink!
 	if (PIR1bits.TMR1IF) {
-		PORTAbits.RA7 ^= 1; // Toggle RA7
+		LATAbits.LATA7 ^= 1; // Toggle RA7
 		T1CONbits.TMR1ON = 0; // Turn off TMR1
 		PIR1bits.TMR1IF = 0; // Reset flag
 	}
@@ -118,7 +118,7 @@ void main (void) {
 
 // Other functions
 void blink(void) {
-	PORTAbits.RA7 ^= 1; // Toggle RA7
+	LATAbits.LATA7 ^= 1; // Toggle RA7
 	T1CONbits.TMR1ON = 1; // Turn on TMR1
 }
 
@@ -137,33 +137,33 @@ void update_time(void) {
 }
 
 void sync_leds(void) {
-	PORTAbits.RA3 = hour & 0b1;
-	PORTAbits.RA4 = hour & 0b10;
-	PORTAbits.RA5 = hour & 0b100;
-	PORTAbits.RA6 = hour & 0b1000;
-	PORTAbits.RA7 = hour & 0b10000;
-	PORTAbits.RA1 = min & 0b1;
-	PORTAbits.RA2 = min & 0b10;
-	PORTBbits.RB2 = min & 0b100;
-	PORTBbits.RB3 = min & 0b1000;
-	PORTCbits.RC0 = min & 0b10000;
-	PORTCbits.RC1 = min & 0b100000;
-	PORTCbits.RC2 = sec & 0b1;
-	PORTCbits.RC3 = sec & 0b10;
-	PORTCbits.RC4 = sec & 0b100;
-	PORTCbits.RC5 = sec & 0b1000;
-	PORTCbits.RC6 = sec & 0b10000;
-	PORTCbits.RC7 = sec & 0b100000;
+	LATAbits.LATA3 = hour & 0b1;
+	LATAbits.LATA4 = hour & 0b10;
+	LATAbits.LATA5 = hour & 0b100;
+	LATAbits.LATA6 = hour & 0b1000;
+	LATAbits.LATA7 = hour & 0b10000;
+	LATAbits.LATA1 = min & 0b1;
+	LATAbits.LATA2 = min & 0b10;
+	LATBbits.LATB2 = min & 0b100;
+	LATBbits.LATB3 = min & 0b1000;
+	LATCbits.LATC0 = min & 0b10000;
+	LATCbits.LATC1 = min & 0b100000;
+	LATCbits.LATC2 = sec & 0b1;
+	LATCbits.LATC3 = sec & 0b10;
+	LATCbits.LATC4 = sec & 0b100;
+	LATCbits.LATC5 = sec & 0b1000;
+	LATCbits.LATC6 = sec & 0b10000;
+	LATCbits.LATC7 = sec & 0b100000;
 }
 
 // Configurations
 void conf_ports(void) {
 	TRISA = 0b00000001;
-	PORTA = 0x00;
+	LATA = 0x00;
 	TRISB = 0b11110011;
-	PORTB = 0x00;
+	LATB = 0x00;
 	TRISC = 0b00000000;
-	PORTC = 0x00;
+	LATC = 0x00;
 }
 
 void conf_osc(void) {
