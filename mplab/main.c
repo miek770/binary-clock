@@ -179,7 +179,5 @@ void main (void) {
 	PORTC = 0x00;
 
 	// Loop indefinitely
-	while (1) {
-		Nop();
-	}
+	while (1);
 }
