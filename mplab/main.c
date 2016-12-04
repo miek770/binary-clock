@@ -7,11 +7,19 @@
 #pragma config PWRT = OFF
 #pragma config LVP = OFF
 
-// Prototypes
+// Prototypes - Functions
 void update_time(void);
 void refresh_clock(void);
 void blink(void);
 void sync_leds(void);
+
+// Prototypes - Configurations
+void conf_tmr0(void);
+void conf_adc(void);
+void conf_int(void);
+void conf_osc(void);
+void conf_tmr1(void);
+void conf_ports(void);
 
 // Initialized variables declarations
 // Using "near" ensures that the variables be saved in the access data bank.
@@ -20,10 +28,10 @@ void sync_leds(void);
 // that the variable isn't cached during execution so changes in either the
 // normal program or interrupt routines are reflected in each other.
 #pragma idata
-near volatile unsigned int bres = 0;
-near volatile unsigned char hour = 0;
-near volatile unsigned char min = 0;
-near volatile unsigned char sec = 0;
+volatile unsigned near int bres = 0;
+volatile unsigned near char hour = 0;
+volatile unsigned near char min = 0;
+volatile unsigned near char sec = 0;
 
 // High-priority interrupt vector
 #pragma code high_vector = 0x08
@@ -35,7 +43,7 @@ void interrupt_at_high_vector(void) {
 // Interrupt subroutine (priorities are disabled)
 // I'm not sure if saving variables is required when using volatiles, but the
 // C18 User's Guide says I should. It also doesn't do so in its example, which
-// is quite confusing...
+// is kind of confusing...
 #pragma interrupt isr save=bres, hour, min, sec
 void isr (void) {
 
@@ -86,13 +94,22 @@ void isr (void) {
 		sync_leds();
 		INTCON3bits.INT1IF = 0; // Reset flag
 	}
-
-	// The GIE bit seems to be reset automatically
-	//INTCONbits.GIE = 1; // Re-enable all interrupt sources
 }
 
 // Main code
 #pragma code
+void main (void) {
+	conf_osc(); // Oscillator configuration
+    conf_int(); // Interrupts configuration
+    conf_tmr0(); // Timer0 - To count seconds
+	conf_tmr1(); // Timer1 - To blink RA7 (low battery)
+    conf_adc(); // A/D converter
+	conf_ports(); // Ports A,B,C
+
+	while (1); // Loop indefinitely
+}
+
+// Other functions
 void blink(void) {
 	PORTAbits.RA7 ^= 1; // Toggle RA7
 	T1CONbits.TMR1ON = 1; // Turn on TMR1
@@ -132,15 +149,25 @@ void sync_leds(void) {
 	PORTCbits.RC7 = sec & 0b100000;
 }
 
-void main (void) {
-	// Oscillator configuration
+// Configurations
+void conf_ports(void) {
+	TRISA = 0b00000001;
+	PORTA = 0x00;
+	TRISB = 0b11110011;
+	PORTB = 0x00;
+	TRISC = 0b00000000;
+	PORTC = 0x00;
+}
+
+void conf_osc(void) {
 	OSCCONbits.IDLEN = 1; // Idle mode enabled; CPU core is not clocked in power managed modes
 	OSCCONbits.IRCF2 = 1; // 4 MHz
 	OSCCONbits.IRCF1 = 1;
 	OSCCONbits.IRCF0 = 0;
 	OSCCONbits.SCS1 = 1; // Internal oscillator block (RC modes)
+}
 
-	// Interrupts
+void conf_int(void) {
 	RCONbits.IPEN = 0; // Disable interrupt priority
 	INTCONbits.GIE = 1; // Enable all interrupt sources
 	INTCONbits.PEIE = 1; // Enable peripheral interrupt sources
@@ -150,20 +177,23 @@ void main (void) {
 	INTCON3bits.INT1IE = 0; // Enable INT1 interrupt
 	INTCON2bits.INTEDG1 = 1; // INT1 on rising edge
 	PIE1bits.ADIE = 1; // Enable A/D conversion interrupt
+}
 
-	// Timer0 - To count seconds
+void conf_tmr0(void) {
 	T0CONbits.TMR0ON = 1; // Enable TMR0
 	T0CONbits.T08BIT = 1; // 8-bit timer (256 ticks)
 	T0CONbits.T0CS = 0; // Internal instruction cycle clock
 	T0CONbits.PSA = 1; // Bypass prescaler
+}
 
-	// Timer1 - To blink RA7 (low battery)
+void conf_tmr1(void) {
 	T1CONbits.T1CKPS1 = 0; // 1:2 prescale value
 	T1CONbits.T1CKPS0 = 1;
 	T1CONbits.TMR1CS = 0; // Internal clock (Fosc/4)
 	T1CONbits.TMR1ON = 0; // Disable TMR1
+}
 
-	// A/D converter
+void conf_adc(void) {
 	ADCON0bits.CHS3 = 0; // AN0 (battery voltage)
 	ADCON0bits.CHS2 = 0;
 	ADCON0bits.CHS1 = 0;
@@ -182,15 +212,4 @@ void main (void) {
 	ADCON2bits.ADCS2 = 0; // Fosc/8
 	ADCON2bits.ADCS1 = 0;
 	ADCON2bits.ADCS0 = 1;
-
-	// Ports A,B,C
-	TRISA = 0b00000001;
-	PORTA = 0x00;
-	TRISB = 0b11110011;
-	PORTB = 0x00;
-	TRISC = 0b00000000;
-	PORTC = 0x00;
-
-	// Loop indefinitely
-	while (1);
 }
