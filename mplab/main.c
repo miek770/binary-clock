@@ -16,7 +16,9 @@ void sync_leds(void);
 // Initialized variables declarations
 // Using "near" ensures that the variables be saved in the access data bank.
 // Using "volatile" is recommended by the C18 User's Guide when the variable
-// is to be used by the ISR as well as other functions.
+// is to be used by the ISR as well as other functions. Basically it ensures
+// that the variable isn't cached during execution so changes in either the
+// normal program or interrupt routines are reflected in each other.
 #pragma idata
 near volatile unsigned int bres = 0;
 near volatile unsigned char hour = 0;
@@ -31,6 +33,9 @@ void interrupt_at_high_vector(void) {
 #pragma code
 
 // Interrupt subroutine (priorities are disabled)
+// I'm not sure if saving variables is required when using volatiles, but the
+// C18 User's Guide says I should. It also doesn't do so in its example, which
+// is quite confusing...
 #pragma interrupt isr save=bres, hour, min, sec
 void isr (void) {
 
@@ -38,7 +43,7 @@ void isr (void) {
 	// Values below work for 4MHz clock (Fosc/4 = 1MHz)
 	if (INTCONbits.TMR0IF) {
 		bres += 16; // add (256/16) ticks to bresenham total
-		
+
 		if (bres >= 62500) { // if reached (1000000/16) 1 second!
 			bres -= 62500; // subtract 1 second, retain error
 			sec += 1;
