@@ -8,7 +8,7 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 
 ## To Do List
 
-The PCB order was placed on OSH Park on 2016-11-27.
+The sync_led() function doesn't function properly because I am setting bits to a byte value. This must be corrected.
 
 - Consider using delays.h instead of timer1 for the low-battery blink. The use of the timer seems unecessary and it would be a good excuse to explore the available functions;
 - Consider importing timers.h to setup timer0, instead of manually setting each register;
