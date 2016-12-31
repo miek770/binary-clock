@@ -8,8 +8,6 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 
 ## To Do List
 
-The sync_led() function didn't function properly because I set bits to a byte value without shifting. I've fixed it in the code but haven't tested it yet.
-
 - Consider using delays.h instead of timer1 for the low-battery blink. The use of the timer seems unecessary and it would be a good excuse to explore the available functions;
 - Consider importing timers.h to setup timer0, instead of manually setting each register;
 - Consider using the idle power management mode when nothing is happening to reduce battery consumption. First check if it would interfere with timer0;

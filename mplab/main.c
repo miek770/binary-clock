@@ -34,17 +34,11 @@ is to be used by the ISR as well as other functions. Basically it ensures
 that the variable isn't cached during execution so changes in either the
 normal program or interrupt routines are reflected in each other. */
 
-/*#pragma idata access accessram
+#pragma idata access accessram
 volatile near unsigned int bres = 0;
 volatile near unsigned char hour = 0b11;
 volatile near unsigned char min = 0b11;
-volatile near unsigned char sec = 0b11;*/
-
-#pragma idata
-volatile unsigned int bres = 0;
-volatile unsigned char hour = 0b11;
-volatile unsigned char min = 0b11;
-volatile unsigned char sec = 0b11;
+volatile near unsigned char sec = 0b11;
 
 // High-priority interrupt vector
 #pragma code high_vector = 0x08
@@ -54,20 +48,16 @@ void interrupt_at_high_vector(void) {
 
 #pragma code
 
-/* Interrupt subroutine (priorities are disabled)
+// Interrupt subroutine (priorities are disabled)
 
-I'm not sure if saving variables is required when using volatiles, but the C18
-User's Guide says I should. It also doesn't do so in its example, which is kind
-of confusing... */
-
-#pragma interrupt isr //save=bres, hour, min, sec
+#pragma interrupt isr
 void isr (void) {
 	
 	// See www.romanblack.com/one_sec.htm for details
 	// Values below work for 4MHz clock (Fosc/4 = 1MHz)
 	if (INTCONbits.TMR0IF) {
 		bres += 16; // add (256/16) ticks to bresenham total
-		//LATCbits.LATC7 ^= 1; // test
+		//LATCbits.LATC7 ^= 1; // For testing
 
 		if (bres >= 62500) { // if reached (1000000/16) 1 second!
 			bres -= 62500; // subtract 1 second, retain error
