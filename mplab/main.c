@@ -22,6 +22,7 @@ void conf_int(void);
 void conf_osc(void);
 void conf_tmr1(void);
 void conf_ports(void);
+unsigned char get_bit(unsigned char byte, unsigned char pos);
 
 /* Initialized variables declarations
 
@@ -121,6 +122,10 @@ void main (void) {
 }
 
 // Other functions
+unsigned char get_bit(unsigned char byte, unsigned char pos) {
+    return (byte >> pos) & 1
+}
+
 void blink(void) {
 	LATAbits.LATA7 ^= 1; // Toggle RA7
 	T1CONbits.TMR1ON = 1; // Turn on TMR1
@@ -141,25 +146,25 @@ void update_time(void) {
 }
 
 void sync_leds(void) {
-	LATAbits.LATA3 = hour & 1; // LSB
-	LATAbits.LATA4 = (hour >> 1) & 1;
-	LATAbits.LATA5 = (hour >> 2) & 1;
-	LATAbits.LATA6 = (hour >> 3) & 1;
-	LATAbits.LATA7 = (hour >> 4) & 1; // MSB
+	LATAbits.LATA3 = get_bit(hour, 0);
+	LATAbits.LATA4 = get_bit(hour, 1);
+	LATAbits.LATA5 = get_bit(hour, 2);
+	LATAbits.LATA6 = get_bit(hour, 3);
+	LATAbits.LATA7 = get_bit(hour, 4);
 
-	LATAbits.LATA1 = min & 1; // LSB
-	LATAbits.LATA2 = (min >> 1) & 1;
-	LATBbits.LATB2 = (min >> 2) & 1;
-	LATBbits.LATB3 = (min >> 3) & 1;
-	LATCbits.LATC0 = (min >> 4) & 1;
-	LATCbits.LATC1 = (min >> 5) & 1; // MSB
+	LATAbits.LATA1 = get_bit(min, 0);
+	LATAbits.LATA2 = get_bit(min, 1);
+	LATBbits.LATB2 = get_bit(min, 2);
+	LATBbits.LATB3 = get_bit(min, 3);
+	LATCbits.LATC0 = get_bit(min, 4);
+	LATCbits.LATC1 = get_bit(min, 5);
 
-	LATCbits.LATC2 = sec & 1; // LSB
-	LATCbits.LATC3 = (sec >> 1) & 1;
-	LATCbits.LATC4 = (sec >> 2) & 1;
-	LATCbits.LATC5 = (sec >> 3) & 1;
-	LATCbits.LATC6 = (sec >> 4) & 1;
-	LATCbits.LATC7 = (sec >> 5) & 1; // MSB
+	LATCbits.LATC2 = get_bit(sec, 0);
+	LATCbits.LATC3 = get_bit(sec, 1);
+	LATCbits.LATC4 = get_bit(sec, 2);
+	LATCbits.LATC5 = get_bit(sec, 3);
+	LATCbits.LATC6 = get_bit(sec, 4);
+	LATCbits.LATC7 = get_bit(sec, 5);
 }
 
 // Configurations
