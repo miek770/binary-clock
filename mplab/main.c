@@ -138,22 +138,22 @@ void update_time(void) {
 
 void sync_leds(void) {
 	LATAbits.LATA3 = hour & 0b1;
-	LATAbits.LATA4 = hour & 0b10;
-	LATAbits.LATA5 = hour & 0b100;
-	LATAbits.LATA6 = hour & 0b1000;
-	LATAbits.LATA7 = hour & 0b10000;
+	LATAbits.LATA4 = (hour & 0b10)>>1;
+	LATAbits.LATA5 = (hour & 0b100)>>2;
+	LATAbits.LATA6 = (hour & 0b1000)>>3;
+	LATAbits.LATA7 = (hour & 0b10000)>>4;
 	LATAbits.LATA1 = min & 0b1;
-	LATAbits.LATA2 = min & 0b10;
-	LATBbits.LATB2 = min & 0b100;
-	LATBbits.LATB3 = min & 0b1000;
-	LATCbits.LATC0 = min & 0b10000;
-	LATCbits.LATC1 = min & 0b100000;
+	LATAbits.LATA2 = (min & 0b10)>>1;
+	LATBbits.LATB2 = (min & 0b100)>>2;
+	LATBbits.LATB3 = (min & 0b1000)>>3;
+	LATCbits.LATC0 = (min & 0b10000)>>4;
+	LATCbits.LATC1 = (min & 0b100000)>>5;
 	LATCbits.LATC2 = sec & 0b1;
-	LATCbits.LATC3 = sec & 0b10;
-	LATCbits.LATC4 = sec & 0b100;
-	LATCbits.LATC5 = sec & 0b1000;
-	LATCbits.LATC6 = sec & 0b10000;
-	LATCbits.LATC7 = sec & 0b100000;
+	LATCbits.LATC3 = (sec & 0b10)>>1;
+	LATCbits.LATC4 = (sec & 0b100)>>2;
+	LATCbits.LATC5 = (sec & 0b1000)>>3;
+	LATCbits.LATC6 = (sec & 0b10000)>>4;
+	LATCbits.LATC7 = (sec & 0b100000)>>5;
 }
 
 // Configurations
