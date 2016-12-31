@@ -6,6 +6,7 @@
 #pragma config BOR = OFF
 #pragma config PWRT = OFF
 #pragma config LVP = OFF
+#pragma config MCLRE = OFF
 
 // Prototypes - Functions
 void update_time(void);
@@ -34,15 +35,16 @@ normal program or interrupt routines are reflected in each other. */
 
 #pragma idata access accessram
 volatile near unsigned int bres = 0;
-volatile near unsigned char hour = 0;
-volatile near unsigned char min = 0;
-volatile near unsigned char sec = 0;
+volatile near unsigned char hour = 0b11;
+volatile near unsigned char min = 0b11;
+volatile near unsigned char sec = 0b11;
 
 // High-priority interrupt vector
 #pragma code high_vector = 0x08
 void interrupt_at_high_vector(void) {
 	_asm GOTO isr _endasm
 }
+
 #pragma code
 
 /* Interrupt subroutine (priorities are disabled)
@@ -112,6 +114,9 @@ void main (void) {
 	conf_tmr1(); // Timer1 - To blink RA7 (low battery)
 	conf_adc(); // A/D converter
 	conf_ports(); // Ports A,B,C
+
+	//LATC = 0xFF; // Test
+	sync_leds();
 
 	while (1); // Loop indefinitely
 }
