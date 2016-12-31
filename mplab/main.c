@@ -115,7 +115,6 @@ void main (void) {
 	conf_adc(); // A/D converter
 	conf_ports(); // Ports A,B,C
 
-	//LATC = 0xFF; // Test
 	sync_leds();
 
 	while (1); // Loop indefinitely
@@ -142,23 +141,25 @@ void update_time(void) {
 }
 
 void sync_leds(void) {
-	LATAbits.LATA3 = hour & 0b1;
-	LATAbits.LATA4 = (hour & 0b10)>>1;
-	LATAbits.LATA5 = (hour & 0b100)>>2;
-	LATAbits.LATA6 = (hour & 0b1000)>>3;
-	LATAbits.LATA7 = (hour & 0b10000)>>4;
-	LATAbits.LATA1 = min & 0b1;
-	LATAbits.LATA2 = (min & 0b10)>>1;
-	LATBbits.LATB2 = (min & 0b100)>>2;
-	LATBbits.LATB3 = (min & 0b1000)>>3;
-	LATCbits.LATC0 = (min & 0b10000)>>4;
-	LATCbits.LATC1 = (min & 0b100000)>>5;
-	LATCbits.LATC2 = sec & 0b1;
-	LATCbits.LATC3 = (sec & 0b10)>>1;
-	LATCbits.LATC4 = (sec & 0b100)>>2;
-	LATCbits.LATC5 = (sec & 0b1000)>>3;
-	LATCbits.LATC6 = (sec & 0b10000)>>4;
-	LATCbits.LATC7 = (sec & 0b100000)>>5;
+	LATAbits.LATA3 = hour & 1; // LSB
+	LATAbits.LATA4 = (hour >> 1) & 1;
+	LATAbits.LATA5 = (hour >> 2) & 1;
+	LATAbits.LATA6 = (hour >> 3) & 1;
+	LATAbits.LATA7 = (hour >> 4) & 1; // MSB
+
+	LATAbits.LATA1 = min & 1; // LSB
+	LATAbits.LATA2 = (min >> 1) & 1;
+	LATBbits.LATB2 = (min >> 2) & 1;
+	LATBbits.LATB3 = (min >> 3) & 1;
+	LATCbits.LATC0 = (min >> 4) & 1;
+	LATCbits.LATC1 = (min >> 5) & 1; // MSB
+
+	LATCbits.LATC2 = sec & 1; // LSB
+	LATCbits.LATC3 = (sec >> 1) & 1;
+	LATCbits.LATC4 = (sec >> 2) & 1;
+	LATCbits.LATC5 = (sec >> 3) & 1;
+	LATCbits.LATC6 = (sec >> 4) & 1;
+	LATCbits.LATC7 = (sec >> 5) & 1; // MSB
 }
 
 // Configurations
