@@ -16,6 +16,12 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 - Assemble the clock;
 - Replace the PIC18F252 with a PIC18F2220 in the schematic.
 
+### Debugging
+
+- LED hour 1 (next to LSB) doesn't light up. Check electrical connection;
+- The topmost adjustment button (for the minutes) doesn't work. Check electrical connections;
+- When adjusting the time (hours), sometimes the clock changes twice for the same button press. It may be a good idea to add a timer to limit the rate of change, but then again this isn't a feature meant to be used very often. It may make more sense to simply go around the clock when you accidentally skip your target.
+
 ## Appearance
 
 ### Front
