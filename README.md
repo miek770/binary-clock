@@ -18,9 +18,11 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 
 ### Debugging
 
-- LED hour 1 (next to LSB) doesn't light up. Check electrical connection;
+- LED hour 1 (next to LSB) doesn't light up. The electrical connection is good, but the PIC pin (pin 6) doesn't get raised. It remains at about 0.1V, which might be just floating;
+    - Oh crap, RA4 is an open-drain output. I'll have to switch for one of the unused outputs (pins 25 or 26, RB4 or RB5 respectively). I don't have to sever the link to RA4, I can simply program it to an input instead of an output and do nothing with it.
 - The topmost adjustment button (for the minutes) doesn't work. Check electrical connections;
-- When adjusting the time (hours), sometimes the clock changes twice for the same button press. It may be a good idea to add a timer to limit the rate of change, but then again this isn't a feature meant to be used very often. It may make more sense to simply go around the clock when you accidentally skip your target.
+- When adjusting the time (hours), sometimes the clock changes twice for the same button press. It may be a good idea to add a timer to limit the rate of change, but then again this isn't a feature meant to be used very often. It may make more sense to simply go around the clock when you accidentally skip your target;
+- I used 69 ohms resistors for the battery voltage monitoring, I definitely didn't mean to do that... The only impact is that the batteries were drained quite quickly, but I have to replace them.
 
 ## Appearance
 
