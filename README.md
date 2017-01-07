@@ -11,9 +11,6 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 - Consider using delays.h instead of timer1 for the low-battery blink. The use of the timer seems unecessary and it would be a good excuse to explore the available functions;
 - Consider importing timers.h to setup timer0, instead of manually setting each register;
 - Consider using the idle power management mode when nothing is happening to reduce battery consumption. First check if it would interfere with timer0;
-- Test the PCB;
-- Finish soldering the components;
-- Assemble the clock;
 - Replace the PIC18F252 with a PIC18F2220 in the schematic.
 
 ### Debugging
@@ -25,10 +22,6 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 - I used 69 ohms resistors for the battery voltage monitoring, I definitely didn't mean to do that... The only impact is that the batteries were drained quite quickly, but I have to replace them.
 
 ## Appearance
-
-### Front
-
-I think I'll use an old PC card for the front. I have a nice looking one with few components on it and I could easily drill holes for the LEDs. It would definitely give the clock its most deserved geeky look.
 
 ### Display
 
@@ -74,4 +67,4 @@ Basically (this is all from his website above):
             do_1sec_event();    // update clock, etc
         }
 
-This is really quite neat!
+This is neat!
