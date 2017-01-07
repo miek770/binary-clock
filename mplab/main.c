@@ -144,7 +144,7 @@ void update_time(void) {
 
 void sync_leds(void) {
 	LATAbits.LATA3 = get_bit(hour, 0);
-	LATAbits.LATA4 = get_bit(hour, 1);
+	LATBbits.LATB5 = get_bit(hour, 1);
 	LATAbits.LATA5 = get_bit(hour, 2);
 	LATAbits.LATA6 = get_bit(hour, 3);
 	LATAbits.LATA7 = get_bit(hour, 4);
@@ -166,9 +166,9 @@ void sync_leds(void) {
 
 // Configurations
 void conf_ports(void) {
-	TRISA = 0b00000001;
+	TRISA = 0b00010001;
 	LATA = 0x00;
-	TRISB = 0b11110011;
+	TRISB = 0b11010011;
 	LATB = 0x00;
 	TRISC = 0b00000000;
 	LATC = 0x00;

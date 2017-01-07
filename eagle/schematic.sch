@@ -2391,10 +2391,11 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <sheets>
 <sheet>
 <plain>
-<text x="208.28" y="7.62" size="1.778" layer="91">Title: PIC18F252 Binary Clock
+<text x="208.28" y="7.62" size="1.778" layer="91">Title: PIC18F2220 Binary Clock
 Author: Michel Lavoie
-Revision: 0.1.1
-Date: 2016-11-27</text>
+Revision: 1.0.0
+Date: 2017-01-07</text>
+<text x="106.68" y="109.22" size="1.778" layer="91">PIC18F2220 (same pinout)</text>
 </plain>
 <instances>
 <instance part="U1" gate="A" x="116.84" y="147.32"/>
@@ -2822,14 +2823,14 @@ Date: 2016-11-27</text>
 </net>
 <net name="HR1" class="0">
 <segment>
-<pinref part="U1" gate="A" pin="RA4/T0CKI/C1OUT"/>
-<wire x1="58.42" y1="152.4" x2="68.58" y2="152.4" width="0.1524" layer="91"/>
-<label x="58.42" y="152.4" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="R6" gate="G$1" pin="2"/>
 <wire x1="190.5" y1="162.56" x2="198.12" y2="162.56" width="0.1524" layer="91"/>
 <label x="190.5" y="162.56" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U1" gate="A" pin="RB5/KBI1/PGM"/>
+<wire x1="172.72" y1="132.08" x2="165.1" y2="132.08" width="0.1524" layer="91"/>
+<label x="167.64" y="132.08" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="HR2" class="0">
