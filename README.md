@@ -6,6 +6,10 @@ This is a simple binary clock project using a PIC18F2220, pretty much for:
 2. Getting more experience with Eagle PCB design;
 3. Doing a first PIC C project (I've only programmed PICs in assembly before).
 
+![Photo](https://github.com/miek770/binary-clock/blob/master/media/Fichier_000.jpeg)
+
+The clamp on the right is there to hold down the buttons (hidden) while the glue dries up. More pictures in [media](https://github.com/miek770/binary-clock/tree/master/media)!
+
 ## To Do List
 
 - Test the low charge detection;
