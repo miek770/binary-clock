@@ -12,6 +12,7 @@ The clamp on the right is there to hold down the buttons (hidden) while the glue
 
 ## To Do List
 
+- Adjust timing to account for the cycles it takes for the time update and LED syncing. I noted an about 10 minutes drift over 24 hours, but I didn't take precise measurements at the beginning of the cycle. I just took another picture with my PC clock showing the seconds and the binary clock, and will compare the difference in at least 24 hours. I could also double-check by calculating the amount of cycles required for the interrupt subroutine;
 - Test the low charge detection;
 - Consider using delays.h instead of timer1 for the low-battery blink. The use of the timer seems unecessary and it would be a good excuse to explore the available functions;
 - Consider importing timers.h to setup timer0, instead of manually setting each register;
