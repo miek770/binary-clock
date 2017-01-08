@@ -71,7 +71,7 @@ void isr (void) {
 	}
 
 	// A/D conversion is complete
-	if (PIR1bits.ADIF) {
+	else if (PIR1bits.ADIF) {
 		// Check if battery voltage under 1V/cell
 		if (ADRESH >= 0b10 && ADRESL >= 0b10011010) {
 			blink(); // Initiates RA7 blink
@@ -80,14 +80,14 @@ void isr (void) {
 	}
 
 	// Time to blink!
-	if (PIR1bits.TMR1IF) {
+	else if (PIR1bits.TMR1IF) {
 		LATAbits.LATA7 ^= 1; // Toggle RA7
 		T1CONbits.TMR1ON = 0; // Turn off TMR1
 		PIR1bits.TMR1IF = 0; // Reset flag
 	}
 
 	// Hour adjustment!
-	if (INTCONbits.INT0IF) {
+	else if (INTCONbits.INT0IF) {
 		hour += 1;
 		update_time();
 		sync_leds();
@@ -95,7 +95,7 @@ void isr (void) {
 	}
 
 	// Min adjustment!
-	if (INTCON3bits.INT1IF) {
+	else if (INTCON3bits.INT1IF) {
 		min += 1;
 		update_time();
 		sync_leds();
