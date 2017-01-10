@@ -35,7 +35,7 @@ that the variable isn't cached during execution so changes in either the
 normal program or interrupt routines are reflected in each other. */
 
 #pragma idata access accessram
-volatile near unsigned int bres = 0;
+volatile near unsigned long bres = 0;
 volatile near unsigned char hour = 0b11;
 volatile near unsigned char min = 0b11;
 volatile near unsigned char sec = 0b11;
@@ -56,11 +56,10 @@ void isr (void) {
 	// See www.romanblack.com/one_sec.htm for details
 	// Values below work for 4MHz clock (Fosc/4 = 1MHz)
 	if (INTCONbits.TMR0IF) {
-		bres += 16; // add (256/16) ticks to bresenham total
-		//LATCbits.LATC7 ^= 1; // For testing
+		bres += 65536; // add 65536 ticks to bresenham total
 
-		if (bres >= 62500) { // if reached (1000000/16) 1 second!
-			bres -= 62500; // subtract 1 second, retain error
+		if (bres >= 1000000) { // if reached 1 second!
+			bres -= 1000000; // subtract 1 second, retain error
 			sec += 1;
 			update_time();
 			sync_leds();
@@ -196,7 +195,7 @@ void conf_int(void) {
 
 void conf_tmr0(void) {
 	T0CONbits.TMR0ON = 1; // Enable TMR0
-	T0CONbits.T08BIT = 1; // 8-bit timer (256 ticks)
+	T0CONbits.T08BIT = 0; // 16-bit timer (65536 ticks)
 	T0CONbits.T0CS = 0; // Internal instruction cycle clock
 	T0CONbits.PSA = 1; // Bypass prescaler
 }
