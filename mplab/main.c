@@ -36,9 +36,9 @@ normal program or interrupt routines are reflected in each other. */
 
 #pragma idata access accessram
 volatile near unsigned long bres = 0;
-volatile near unsigned char hour = 0b11;
-volatile near unsigned char min = 0b11;
-volatile near unsigned char sec = 0b11;
+volatile near unsigned char hour = 10;
+volatile near unsigned char min = 4;
+volatile near unsigned char sec = 0;
 
 // High-priority interrupt vector
 #pragma code high_vector = 0x08
@@ -179,6 +179,7 @@ void conf_osc(void) {
 	OSCCONbits.IRCF1 = 1;
 	OSCCONbits.IRCF0 = 0;
 	OSCCONbits.SCS1 = 1; // Internal oscillator block (RC modes)
+	OSCTUNE = 0b000010; // Approx. +8% calibration: (12.5%/31)*2 = 0.806%
 }
 
 void conf_int(void) {
